@@ -6,11 +6,7 @@
 	</listeners>
 	<test name="Test">
 		<classes>
-			<class name="test.AmazonAPKTest" >
-				<methods>
-					<include name="testCompare" />			
-				</methods>
-			</class>
+			<class name="test.AmazonAPKTest" />
 		</classes>
 	</test> 
 </suite> 

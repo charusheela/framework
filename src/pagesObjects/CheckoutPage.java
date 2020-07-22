@@ -114,10 +114,6 @@ public class CheckoutPage extends Base {
 		return this;
 	}
 
-	/*
-	 * System.out.println("Selecting the option from dropdown");
-	 * System.out.println("trying to find the Name field");
-	 */
 	
 	
 	@FindBy(xpath = "//*[@text='Continue']")

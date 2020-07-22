@@ -95,9 +95,7 @@ public class CapInitialise extends Config {
 		cap.setCapability("browserName", "");
 
 		switch (platform) {
-		case "IOS":
-			// IOS
-			break;
+		
 
 		case "ANDROID":
 			cap.setCapability(MobileCapabilityType.UDID, ANDROID_ID);

@@ -1,5 +1,6 @@
 package test;
 
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import commonFunctions.CapInitialise;
@@ -14,9 +15,10 @@ import pagesObjects.SignInPage;;
 public class AmazonAPKTest extends CapInitialise {
 
 	FileInput files = new FileInput();
+	
 
-	@Test
-	public void testCompare() throws Exception {
+	@BeforeTest
+	public void Login() throws Exception {
 
 		SignInPage sign = new SignInPage();
 		sign.verifySignInPage();
@@ -26,7 +28,12 @@ public class AmazonAPKTest extends CapInitialise {
 		LoginPage login = new LoginPage();
 		login.verifyLogInPage();
 		login.logInUser();
+	}
 
+	@Test
+	public void testCompare() throws Exception {
+
+		
 		// search keyword
 		HomePage hp = new HomePage();
 		hp.verifyHomePage();

@@ -64,7 +64,7 @@ public class HomePage extends Base {
 	private WebElement button_CancelLanguage;
 
 	@FindBy(xpath = "//*[@resource-id=\"com.amazon.mShop.android.shopping:id/action_bar_home_logo\"]")
-	private WebElement logoAmazon;
+	private WebElement logo_Amazon;
 
 	@FindBy(xpath = "//*[@resource-id=\"com.amazon.mShop.android.shopping:id/rs_search_src_text\"]")
 	private WebElement search_Box;
@@ -72,6 +72,6 @@ public class HomePage extends Base {
 	@FindBy(xpath = "//*[@resource-id=\"com.amazon.mShop.android.shopping:id/iss_search_dropdown_item_query_builder\"]")
 	private WebElement button_Search;
 
-	@FindBy(xpath = "//android.widget.TextView[@text='65-inch tv'])[2]")
+	@FindBy(xpath = "//android.view.View[@resource-id=\"title_feature_div\"]")  
 	private WebElement select_Product;
 }
