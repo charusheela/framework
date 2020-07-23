@@ -1,4 +1,4 @@
-package commonFunctions;
+package utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,14 +7,18 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.ITestNGMethod;
@@ -30,15 +34,16 @@ import org.testng.annotations.Test;
 import com.google.common.io.Files;
 import com.relevantcodes.extentreports.ExtentReports;
 
-import commonFunctions.Config;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.events.EventFiringWebDriverFactory;
 import io.appium.java_client.remote.MobileCapabilityType;
+import utils.Config;
 
-public class CapInitialise extends Config {
+public class Base extends Config  {
 
 	DesiredCapabilities cap;
 
@@ -205,4 +210,6 @@ public class CapInitialise extends Config {
 		extent.close();
 	}
 
+	
+	
 }

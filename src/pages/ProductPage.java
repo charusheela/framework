@@ -1,34 +1,42 @@
-package pagesObjects;
+package pages;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.Reporter;
 
-import commonFunctions.Base;
-import commonFunctions.Report;
-import commonFunctions.Utility;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
+import utils.Base;
+import utils.Utility;
 
-public class ProductPage extends Base {
+public class ProductPage extends Utility {
 
-	WebDriverWait wait = new WebDriverWait(driver, 20);
-
-	@Override
+	
+	public ProductPage(AndroidDriver<AndroidElement> driver) {
+		this.driver = driver;
+		PageFactory.initElements(driver, this);
+	}
+	
 	public void waitForPageToLoad() {
 
-		wait.until(ExpectedConditions.visibilityOf(label_ProductTitle));
+		waitForElement(driver,label_ProductTitle);
 	}
 
-	// Verify Product Detail page loaded successfully
-
+	/**
+	 * Verify Product Detail page loaded successfully
+	 * 
+	 * @return
+	 */
 	public ProductPage verifyProductDetailsPage() {
 
 		try {
 			waitForPageToLoad();
-			Report.AssertTrueWithScreenshot(button_BuyNow.isDisplayed(),
+			Utility.AssertTrueWithScreenshot(button_BuyNow.isDisplayed(),
 					"Verify Product Details page is loaded successfully");
 		} catch (NoSuchElementException e) {
 			Assert.fail("Failed to load Product Details page");
@@ -36,8 +44,11 @@ public class ProductPage extends Base {
 		return this;
 	}
 
-	// Buy Now button click on Product details page
-
+	/**
+	 * Buy Now button click on Product details page
+	 * 
+	 * @return
+	 */
 	public ProductPage clickBuyNow() {
 		try {
 			while (!(button_BuyNow.isDisplayed())) {

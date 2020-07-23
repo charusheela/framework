@@ -1,42 +1,54 @@
-package pagesObjects;
+package pages;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.Reporter;
 
-import commonFunctions.Base;
-import commonFunctions.FileInput;
-import commonFunctions.Report;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
+import utils.Base;
+import utils.FileInput;
+import utils.Utility;
 
-public class LoginPage extends Base {
+public class LoginPage extends Utility {
 
 	FileInput files = new FileInput();
-	WebDriverWait wait = new WebDriverWait(driver, 20);
-
-	@Override
+	
+	public LoginPage(AndroidDriver<AndroidElement> driver) {
+		this.driver = driver;
+		PageFactory.initElements(driver, this);
+	}
+	
 	public void waitForPageToLoad() {
-		wait.until(ExpectedConditions.visibilityOf(button_Continue));
+		waitForElement(driver,button_Continue);
 	}
 
-	// Verify LogIn In page loaded
-
+	/**
+	 * Verify LogIn In page loaded
+	 * 
+	 * @return
+	 */
 	public LoginPage verifyLogInPage() {
 
 		try {
 			waitForPageToLoad();
-			Report.AssertTrueWithScreenshot(textBox_MobileNumber.isDisplayed(), "Verify Login page is loaded");
+			Utility.AssertTrueWithScreenshot(textBox_MobileNumber.isDisplayed(), "Verify Login page is loaded");
 		} catch (NoSuchElementException e) {
 			Assert.fail("Failed to load LogIn Page");
 		}
 		return this;
 	}
 
-	// User login
-
+	/**
+	 * User login
+	 * 
+	 * @return
+	 */
 	public LoginPage logInUser() {
 		try {
 			String username = files.Username(); // username from TestData.xls
@@ -49,15 +61,19 @@ public class LoginPage extends Base {
 		return this;
 	}
 
-	// Enter username and password 
-
+	/**
+	 * Enter username and password
+	 * 
+	 * @param mobile_no
+	 * @param pass
+	 */
 	public void signIn(String mobile_no, String pass) {
 		try {
 			textBox_MobileNumber.sendKeys(mobile_no);
 			button_Continue.click();
-			wait.until(ExpectedConditions.visibilityOf(textBox_Password));
+			waitForElement(driver,textBox_Password);
 			textBox_Password.sendKeys(pass);
-			Report.logWithScreenShot("Before Login");
+			Utility.logWithScreenShot("Before Login");
 			button_Login.click();
 			Reporter.log("Successfully  login ");
 		} catch (Exception e) {

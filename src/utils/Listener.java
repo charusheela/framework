@@ -1,4 +1,4 @@
-package commonFunctions;
+package utils;
 
 import java.io.File;
 
@@ -48,7 +48,7 @@ public class Listener extends TestListenerAdapter {
 		Config.getLogger().info("Failed : " + result.getName());
 		System.out.println("Failed " + result.getName());
 
-		driver = CapInitialise.getDriver();
+		driver = Base.getDriver();
 		String testClassName = getTestClassName(result.getTestName()).trim();
 		String testMethodName = result.getName().toString().trim();
 		String screenShotName = testMethodName + ".jpg";

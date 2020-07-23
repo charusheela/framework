@@ -1,4 +1,4 @@
-package commonFunctions;
+package utils;
 
 import java.util.Properties;
 
@@ -14,7 +14,8 @@ import io.appium.java_client.android.AndroidElement;
 
 public class Config {
 
-	protected static AppiumDriver driver;
+	protected static AndroidDriver<AndroidElement> driver;
+//	protected static AppiumDriver driver;
 	protected static Properties props = new Properties();
 	protected static Logger log = Logger.getLogger("nativeApplicationLogger");
 

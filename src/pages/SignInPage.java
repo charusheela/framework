@@ -1,42 +1,54 @@
-package pagesObjects;
+package pages;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.Reporter;
 
-import commonFunctions.Base;
-import commonFunctions.Report;
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
+import utils.Base;
+import utils.Utility;
 
-public class SignInPage extends Base {
+public class SignInPage extends Utility {
 
-	WebDriverWait wait = new WebDriverWait(driver, 20);
-
-	@Override
+	
+	public SignInPage(AndroidDriver<AndroidElement> driver) {
+		this.driver = driver;
+		PageFactory.initElements(driver, this);
+	}
+	
 	public void waitForPageToLoad() {
 
-		wait.until(ExpectedConditions.visibilityOf(button_SignIn));
+		waitForElement(driver,button_SignIn);
 	}
 
-	// Verify Sign In page loaded
-
+	/**
+	 * Verify Sign In page loaded
+	 * 
+	 * @return
+	 */
 	public SignInPage verifySignInPage() {
 
 		try {
 			waitForPageToLoad();
-			Report.AssertTrueWithScreenshot(button_SignIn.isDisplayed(),
-					"Verify Sign in page is loaded successfully");
+			Utility.AssertTrueWithScreenshot(button_SignIn.isDisplayed(), "Verify Sign in page is loaded successfully");
 		} catch (NoSuchElementException e) {
 			Assert.fail("Failed to load SignIn Page");
 		}
 		return this;
 	}
 
-	// Click Sign In button
-
+	/**
+	 * Click Sign In button
+	 * 
+	 * @return
+	 */
 	public SignInPage clickSignIn() {
 		try {
 			button_SignIn.click();

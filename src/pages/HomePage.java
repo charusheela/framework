@@ -1,27 +1,35 @@
-package pagesObjects;
+package pages;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import commonFunctions.Base;
-import commonFunctions.FileInput;
-import commonFunctions.Report;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
+import utils.Base;
+import utils.FileInput;
+import utils.Utility;
 
-public class HomePage extends Base {
+public class HomePage extends Utility {
 
 	FileInput files = new FileInput();
-	WebDriverWait wait = new WebDriverWait(driver, 20);
 
-	@Override
+	
+	
+	public HomePage(AndroidDriver<AndroidElement> driver) {
+		this.driver = driver;
+		PageFactory.initElements(driver, this);
+	}
+	
 	public void waitForPageToLoad() {
 
 		try {
-			wait.until(ExpectedConditions.visibilityOf(button_CancelLanguage));
+			waitForElement(driver, button_CancelLanguage);
 			button_CancelLanguage.click();
 			System.out.print("Clicked on close language selection successfully");
 		} catch (Exception e) {
@@ -29,31 +37,37 @@ public class HomePage extends Base {
 		}
 	}
 
-	// Verify Home page loaded successfully
-
+	/**
+	 * Verify Home page loaded successfully
+	 * 
+	 * @return
+	 */
 	public HomePage verifyHomePage() {
 
 		try {
 			waitForPageToLoad();
-			Report.AssertTrueWithScreenshot(search_Box.isDisplayed(), "Verify Home page is loaded successfully");
+			Utility.AssertTrueWithScreenshot(search_Box.isDisplayed(), "Verify Home page is loaded successfully");
 		} catch (NoSuchElementException e) {
 			Assert.fail("Failed to load Home Page");
 		}
 		return this;
 	}
 
-	//  search box and select value from auto suggestion
-
+	/**
+	 * search box and select value from auto suggestion
+	 * 
+	 * @return
+	 */
 	public HomePage EnterKeyword_SearchItem() {
 		try {
-			String searchItemName = files.SearchItem(); //  item name from TestData.xls
+			String searchItemName = files.SearchItem(); // item name from TestData.xls
 
 			new TouchAction(driver).press(search_Box).release().perform();
 			search_Box.sendKeys(searchItemName);
-			Report.logWithScreenShot("Searching... ");
-			wait.until(ExpectedConditions.visibilityOf(select_Product));
+			Utility.logWithScreenShot("Searching... ");
+			waitForElement(driver, select_Product);
 			select_Product.click(); // Selecting product from auto suggest
-			Report.logWithScreenShot("Search Result ");
+			Utility.logWithScreenShot("Search Result ");
 		} catch (Exception e) {
 			Assert.fail("Search process failed");
 		}
@@ -72,6 +86,6 @@ public class HomePage extends Base {
 	@FindBy(xpath = "//*[@resource-id=\"com.amazon.mShop.android.shopping:id/iss_search_dropdown_item_query_builder\"]")
 	private WebElement button_Search;
 
-	@FindBy(xpath = "//android.view.View[@resource-id=\"title_feature_div\"]")  
+	@FindBy(xpath = "//android.view.View[@resource-id=\"title_feature_div\"]")
 	private WebElement select_Product;
 }

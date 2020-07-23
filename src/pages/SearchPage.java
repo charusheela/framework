@@ -1,35 +1,44 @@
-package pagesObjects;
+package pages;
 
 import java.util.List;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.Reporter;
 
-import commonFunctions.Base;
-import commonFunctions.Report;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
+import utils.Base;
+import utils.Utility;
 
-public class SearchPage extends Base {
+public class SearchPage extends Utility {
 
-	WebDriverWait wait = new WebDriverWait(driver, 20);
-
-	@Override
+	
+	public SearchPage(AndroidDriver<AndroidElement> driver) {
+		this.driver = driver;
+		PageFactory.initElements(driver, this);
+	}
+	
 	public void waitForPageToLoad() {
 
-		wait.until(ExpectedConditions.visibilityOf(label_SearchResults));
+		waitForElement(driver,label_SearchResults);
 	}
 
-	// Verify Search Result page loaded
-
+	/**
+	 * Verify Search Result page loaded
+	 * 
+	 * @return
+	 */
 	public SearchPage verifySearchResultPage() {
 
 		try {
 			waitForPageToLoad();
-			Report.AssertTrueWithScreenshot(label_SearchResults.isDisplayed(),
+			Utility.AssertTrueWithScreenshot(label_SearchResults.isDisplayed(),
 					"Verify Search Result page is loaded successfully");
 		} catch (NoSuchElementException e) {
 			Assert.fail("Failed to load Search Result page");
@@ -37,8 +46,11 @@ public class SearchPage extends Base {
 		return this;
 	}
 
-	// item name from search
-
+	/**
+	 * item name from search
+	 * 
+	 * @return
+	 */
 	public String getItemName() {
 		String deviceName = "";
 		try {

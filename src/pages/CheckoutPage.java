@@ -1,40 +1,49 @@
-package pagesObjects;
+package pages;
 
 import java.util.List;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.Reporter;
 
-import commonFunctions.Base;
-import commonFunctions.FileInput;
-import commonFunctions.Report;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
+import utils.Base;
+import utils.FileInput;
+import utils.Utility;
 
-public class CheckoutPage extends Base {
+public class CheckoutPage extends Utility {
 
 	FileInput files = new FileInput();
-	WebDriverWait wait = new WebDriverWait(driver, 20);
-
-	@Override
+	
+	
+	public CheckoutPage(AndroidDriver<AndroidElement> driver) {
+		this.driver = driver;
+		PageFactory.initElements(driver, this);
+	}
+	
 	public void waitForPageToLoad() {
-
-		wait.until(ExpectedConditions.visibilityOf(button_Address));
-		Report.logWithScreenShot("Address Details:- ");
+		waitForElement(driver, button_Address);
+		Utility.logWithScreenShot("Address Details:- ");
 		button_Address.click();
-		wait.until(ExpectedConditions.visibilityOf(button_Continue));
-		Report.logWithScreenShot("Delivery Date Details:- ");
+		waitForElement(driver, button_Continue);
+		Utility.logWithScreenShot("Delivery Date Details:- ");
 	}
 
-	// Verify CheckOut Payments
-
+	/**
+	 * Verify CheckOut Payments
+	 * 
+	 * @return
+	 */
 	public CheckoutPage verifyCheckOutPage() {
 		try {
 			waitForPageToLoad();
-			Report.AssertTrueWithScreenshot(button_Continue.isDisplayed(),
+			Utility.AssertTrueWithScreenshot(button_Continue.isDisplayed(),
 					"Verify CheckOut page is loaded successfully");
 		} catch (NoSuchElementException e) {
 			Assert.fail("Unable to load CheckOut page");
@@ -42,10 +51,14 @@ public class CheckoutPage extends Base {
 		return this;
 	}
 
-	// Select Bank
-
+	/**
+	 * Select Bank
+	 * 
+	 * @return
+	 */
 	public CheckoutPage selectBank() {
-		wait.until(ExpectedConditions.visibilityOf(dropDown_BankName));
+		waitForElement(driver, dropDown_BankName);
+		
 		try {
 			String bankName = files.BankName(); // Bank name from TestData.xls
 			dropDown_BankName.click();
@@ -61,8 +74,11 @@ public class CheckoutPage extends Base {
 		return this;
 	}
 
-	// Select Net Banking payment option
-
+	/**
+	 * Select Net Banking payment option
+	 * 
+	 * @return
+	 */
 	public CheckoutPage clickNetBankingRadioButton() {
 		try {
 
@@ -74,8 +90,11 @@ public class CheckoutPage extends Base {
 		return this;
 	}
 
-	// Click Continue button
-
+	/**
+	 * Click Continue button
+	 * 
+	 * @return
+	 */
 	public CheckoutPage clickContinueButton() {
 		try {
 
@@ -87,11 +106,14 @@ public class CheckoutPage extends Base {
 		return this;
 	}
 
-	// Get selected item name from CheckOut page
-
+	/**
+	 * Get selected item name from CheckOut page
+	 * 
+	 * @return
+	 */
 	public String getItemNameText() {
 		String actualDeviceName = "";
-		wait.until(ExpectedConditions.visibilityOf(text_ItemName));
+		waitForElement(driver, text_ItemName);
 		try {
 			actualDeviceName = text_ItemName.getText();
 			Reporter.log("Text item name get successfully");
@@ -101,21 +123,24 @@ public class CheckoutPage extends Base {
 		return actualDeviceName;
 	}
 
-	// Compare device names between search results and checkout
-
+	/**
+	 * Compare device names between search results and checkout
+	 * 
+	 * @param actualValue
+	 * @param expectedValue
+	 * @return
+	 */
 	public CheckoutPage compareItemNames(String actualValue, String expectedValue) {
 		try {
 			Assert.assertEquals(actualValue, expectedValue, "String Comparison failed");
 			Reporter.log("Item names are matching successfully");
-			Report.logWithScreenShot("CheckOut Page");
+			Utility.logWithScreenShot("CheckOut Page");
 		} catch (Exception e) {
 			Assert.fail("Failed to compare both values");
 		}
 		return this;
 	}
 
-	
-	
 	@FindBy(xpath = "//*[@text='Continue']")
 	private WebElement button_Continue;
 
